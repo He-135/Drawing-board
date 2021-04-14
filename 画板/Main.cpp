@@ -6,10 +6,10 @@ color_t setBorderColor(void);//设置颜色
 color_t setFillColor(void);//设置填充颜色
 
 int main(void){
-		Background();
-		a:font();
-		outtextrect(0, 0, 640, 480,
-				"请选择作画内容：\n1.圆\n2.矩形\n3.三角形\n4.清空屏幕\n请输入您的选择：");
+		//Background();
+		//a:font();
+		//outtextrect(0, 0, 640, 480,
+		//		"请选择作画内容：\n1.圆\n2.矩形\n3.三角形\n4.清空屏幕\n请输入您的选择：");
 		while(1){
 				int choose = getch();
 				switch (choose) {
