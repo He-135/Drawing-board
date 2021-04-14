@@ -38,8 +38,18 @@ public:
 		//void setColor(int, int, int);
 };
 
+//基类shape
+//class Shape{
+//private:
+//		bool isFill;
+//		color_t borderColor;
+//		color_t fillColor;
+//public:
+//		Shape()
+//};
+
 //圆形类
-class Circle{
+class Circle:public Shape{
 private:
 		int r;
 		color_t color;
@@ -57,7 +67,7 @@ public:
 };
 
 //矩形类
-class Rectangle_{
+class Rectangle_ :public Shape {
 private:
 		Point p[2];
 		color_t color;
@@ -72,7 +82,7 @@ public:
 };
 
 //三角形类
-class Triangle{
+class Triangle :public Shape {
 private:
 		Point p[3];
 		color_t colorBorder;
