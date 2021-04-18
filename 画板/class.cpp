@@ -10,7 +10,7 @@ Background::Background(int width, int height) {
 		ege::line(160, 0, 160, height);
 }
 void Background::line(void){
-		ege::line(160, 0, 160, height);
+		ege::line(160, 0, 160, 960);
 }
 
 //点类
@@ -19,18 +19,16 @@ Point::Point(int x, int y) {
 		this->x = x;
 		this->y = y;
 }
+Point::Point(const Point& p){
+		this->x = p.x;
+		this->y = p.y;
+}
 int Point::getX(void)const{
 		return x;
 }
 int Point::getY(void)const {
 		return y;
 }
-//void Point::setX(int x){
-//		this->x = x;
-//}
-//void Point::setY(int y){
-//		this->y = y;
-//}
 
 //颜色类
 Color::Color() :Color(0, 0, 0) {}
@@ -40,52 +38,132 @@ Color::Color(int R, int G, int B) {
 		this->G = G;
 		color = EGERGB(R, G, B);
 }
+Color::Color(const Color& c){
+		this->R = c.R;
+		this->G = c.G;
+		this->B = c.B;
+		this->color = c.color;
+}
 color_t Color::getColor(void)const {
 		return color;
 }
-//void Color::setColor(int R, int G, int B){
-//		this->color = Color(R, G, B).getColor();
-//}
+
+//基类shape
+Shape::Shape(const Shape& s) {
+		this->isFill = s.isFill;
+		this->borderColor = new Color(*s.borderColor);
+		this->fillColor = s.fillColor;
+}
+Shape::~Shape(){
+		if(borderColor != nullptr){
+				delete borderColor;
+				borderColor = nullptr;
+		}
+		if(fillColor != nullptr){
+				delete fillColor;
+				fillColor = nullptr;
+		}
+}
+void Shape::draw(void) {
+		setBorder();
+		if (isFill) {
+				setFill();
+		}
+}
+bool Shape::getBool(void)const {
+		return isFill;
+}
+color_t Shape::getBorder(void)const {
+		return borderColor->getColor();
+}
+color_t Shape::getFill(void)const {
+		return fillColor->getColor();
+}
+int Shape::getCount(void){
+		return count;
+}
+void Shape::setBool(int isFill) {
+		this->isFill = isFill;
+}
+void Shape::setBorder(void) {
+		char color[100];
+		int RGB[100];
+		//输入RGB值
+		inputbox_getline("设置【边框】颜色",
+				"请输入RGB的值（以空格分隔）",
+				color,
+				sizeof(color) / sizeof(*color));
+		char* tokenPtr = strtok(color, " ");
+		for (int i = 0; tokenPtr != NULL && i < 3; i++) {
+				RGB[i] = atoi(tokenPtr);
+				tokenPtr = strtok(NULL, " ");
+		}
+		this->borderColor = new Color(RGB[0], RGB[1], RGB[2]);
+		setcolor(borderColor->getColor());
+}
+void Shape::setFill(void) {
+		char color[100];
+		int RGB[100];
+		//输入RGB值
+		inputbox_getline("设置【填充】颜色",
+				"请输入RGB的值（以空格分隔）",
+				color,
+				sizeof(color) / sizeof(*color));
+		char* tokenPtr = strtok(color, " ");
+		for (int i = 0; tokenPtr != NULL && i < 3; i++) {
+				RGB[i] = atoi(tokenPtr);
+				tokenPtr = strtok(NULL, " ");
+		}
+		fillColor = new Color(RGB[0], RGB[1], RGB[2]);
+		setfillcolor(fillColor->getColor());
+}
+void Shape::setCount(int count_){
+		count = count_;
+}
 
 //圆类
-Circle::Circle() :Circle(200, 200, 50, Color(255, 0, 0).getColor()) {}
-Circle::Circle(int x, int y, int r, color_t color) {
+Circle::Circle(int x, int y, int r) {
+		Shape::setBool(0);
 		p = Point(x, y);
 		this->r = r;
-		this->color = color;
-		setcolor(color);
-		circle(p.getX(), p.getY(), r);
+		draw();
 		setcolor(BLACK);
+}
+Circle::Circle(const Circle& c){
+		this->r = c.r;
+		this->p = Point(c.p);
+		
 }
 int Circle::getRadius(void)const{
 		return r;
 }
-color_t Circle::getColor(void)const{
-		return color;
-}
 Point Circle::getPoint(void)const{
 		return p;
+}
+int Circle::getCountCircle(void){
+		return countCircle;
+}
+void Circle::setCountCircle(int count){
+	  countCircle = count;
 }
 void Circle::setRadius(int r){
 		this->r = r;
 }
-void Circle::setColor(int R, int G, int B){
-		this->color = Color(R, G, B).getColor();
-}
 void Circle::setPoint(int x, int y){
 		this->p = Point(x, y);
 }
+void Circle::draw(void){
+		Shape::draw();
+		circle(p.getX(), p.getY(), r);
+}
 
 //矩形类
-int example[4]{ 200, 200, 300, 300 };
-Rectangle_::Rectangle_() :Rectangle_(example,	Color(255, 0, 0).getColor()) {}
-Rectangle_::Rectangle_(int xy[4], color_t color) {
+Rectangle_::Rectangle_(int xy[4]) {
+		Shape::setBool(0);
 		for(int i = 0, j = 0; i < 4 && j < 2; i++, j++){
 				p[j] = Point(xy[i++], xy[i]);
 		}
-		this->color = color;
-		setcolor(color);
-		rectangle(p[0].getX(), p[0].getY(), p[1].getX(), p[1].getY());
+		draw();
 		setcolor(BLACK);
 }
 Point Rectangle_::getPoint(int index)const{
@@ -94,44 +172,50 @@ Point Rectangle_::getPoint(int index)const{
 void Rectangle_::setPoint(int x, int y, int index){
 		p[index] = Point(x, y);
 }
-color_t Rectangle_::getColor(void)const {
-		return color;
+void Rectangle_::draw(void) {
+		Shape::draw();
+		rectangle(p[0].getX(), p[0].getY(), p[1].getX(), p[1].getY());
 }
-void Rectangle_::setColor(int R, int G, int B) {
-		this->color = Color(R, G, B).getColor();
+Rectangle_::~Rectangle_() {
+		setCount(getCount() - 1);
+}
+int Rectangle_::getCountRectangle(void){
+		return countRectangle;
+}
+void Rectangle_::setCountRectangle(int count){
+		countRectangle = count;
 }
 
 //三角形类
-int exampleTri[6]{ 200, 200, 200, 300, 300, 300 };
-Triangle::Triangle() :Triangle(exampleTri, Color(255, 0, 0).getColor(), Color(0, 0, 255).getColor()) {}
-Triangle::Triangle(int xy[6], color_t colorBorder, color_t colorFill) {
+Triangle::Triangle(int xy[6]) {
+		Shape::setBool(1);
 		for (int i = 0, j = 0; i < 6; j++) {
 				p[j] = Point(xy[i++], xy[i++]);
 		}
-		this->colorBorder = colorBorder;
-		this->colorFill = colorFill;
-		setcolor(this->colorBorder);
-		setfillcolor(this->colorFill);
-		int xy_[6];
-		for(int i = 0, j = 0; i < 6; j++){
-				xy_[i++] = p[j].getX();
-				xy_[i++] = p[j].getY();
-		}
-		fillpoly(3, xy_);
+		draw();
 		setcolor(BLACK);
 }
 Point Triangle::getPoint(int index)const {
 		return p[index];
 }
-color_t Triangle::getColorBorder(void)const {
-		return colorBorder;
-}
-color_t Triangle::getColorFill(void)const {
-		return colorFill;
-}
 void Triangle::setPoint(int x, int y, int index) {
 		p[index] = Point(x, y);
 }
-void Triangle::setColor(int R, int G, int B) {
-		this->colorBorder = Color(R, G, B).getColor();
+void Triangle::draw(void) {
+		Shape::draw();
+		int xy[6];
+		for (int i = 0, j = 0; i < 6; j++) {
+				xy[i++] = p[j].getX();
+				xy[i++] = p[j].getY();
+		}
+		fillpoly(3, xy);
+}
+Triangle::~Triangle() {
+		setCount(getCount() - 1);
+}
+int Triangle::getCountTriangle(void){
+		return countTriangle;
+}
+void Triangle::setCountTriangle(int count){
+		countTriangle = count;
 }

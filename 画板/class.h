@@ -20,10 +20,10 @@ private:
 public:
 		Point();
 		Point(int, int);
+		Point(const Point&);
 		int getX(void)const;
 		int getY(void)const;
-		/*void setX(int);
-		void setY(int);*/
+		~Point() = default;
 };
 
 //颜色类
@@ -34,66 +34,85 @@ private:
 public:
 		Color();
 		Color(int, int, int);
+		Color(const Color&);
+		~Color() = default;
 		color_t getColor(void)const;
-		//void setColor(int, int, int);
 };
 
 //基类shape
-//class Shape{
-//private:
-//		bool isFill;
-//		color_t borderColor;
-//		color_t fillColor;
-//public:
-//		Shape()
-//};
+class Shape{
+private:
+		bool isFill;
+		Color* borderColor = nullptr;
+		Color borderColor_;
+		Color* fillColor = nullptr;
+		static int count;
+public:
+		Shape() = default;
+		Shape(const Shape&);
+		~Shape();
+		virtual void draw(void);
+		bool getBool(void)const;
+		color_t getBorder(void)const;
+		color_t getFill(void)const;
+		static int getCount(void);
+		void setBool(int);
+		void setBorder(void);
+		void setFill(void);
+		static void setCount(int);
+};
 
 //圆形类
 class Circle:public Shape{
 private:
 		int r;
-		color_t color;
 		Point p;
-		bool fill = false;
+		static int countCircle;
 public:
-		Circle();
-		Circle(int, int, int, color_t);
+		Circle() = default;
+		Circle(int, int, int);
+		Circle(const Circle&);
+		~Circle() = default;
 		int getRadius(void)const;
-		color_t getColor(void)const;
 		Point getPoint(void)const;
+		static int getCountCircle(void);
+		static void setCountCircle(int);
 		void setRadius(int);
-		void setColor(int, int, int);
 		void setPoint(int, int);
+		virtual void draw(void);
 };
 
 //矩形类
 class Rectangle_ :public Shape {
 private:
 		Point p[2];
-		color_t color;
 		bool fill = false;
+		static int countRectangle;
 public:
-		Rectangle_();
-		Rectangle_(int[4], color_t);
+		Rectangle_() = default;
+		Rectangle_(int[4]);
+		Rectangle_(const Rectangle_&);
+		~Rectangle_();
 		Point getPoint(int)const;
-		color_t getColor(void)const;
 		void setPoint(int, int, int);
-		void setColor(int, int, int);
+		void draw(void);
+		static int getCountRectangle(void);
+		static void setCountRectangle(int);
 };
 
 //三角形类
 class Triangle :public Shape {
 private:
 		Point p[3];
-		color_t colorBorder;
-		color_t colorFill;
-		bool fill = true;
+		static int countTriangle;
 public:
-		Triangle();
-		Triangle(int[6], color_t, color_t);
+		Triangle() = default;
+		Triangle(int[6]);
+		Triangle(const Triangle&);
+		~Triangle();
 		Point getPoint(int)const;
-		color_t getColorBorder(void)const;
-		color_t getColorFill(void)const;
 		void setPoint(int, int, int);
-		void setColor(int, int, int);
+		void draw(void);
+		static int getCountTriangle(void);
+		static void setCountTriangle(int);
 };

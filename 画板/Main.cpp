@@ -5,25 +5,37 @@ void font(void);//设置字体
 color_t setBorderColor(void);//设置颜色
 color_t setFillColor(void);//设置填充颜色
 
+int Shape::count;
+int Circle::countCircle;
+int Rectangle_::countRectangle;
+int Triangle::countTriangle;
+
 int main(void){
-		//Background();
-		//a:font();
-		//outtextrect(0, 0, 640, 480,
-		//		"请选择作画内容：\n1.圆\n2.矩形\n3.三角形\n4.清空屏幕\n请输入您的选择：");
+		Background();
+		Circle c1{ 1, 1, 2 };
+		Circle c2{ c1 };
+		Circle circle[10];
+		Rectangle_ rectangle_[10];
+		Triangle triangle[10];
+		a:font();
+		outtextrect(0, 0, 640, 480,
+				"请选择作画内容：\n1.圆\n2.矩形\n3.三角形\n4.清空屏幕\n请输入您的选择：");
 		while(1){
+				char points[100];
+				int coord[100];
+				char cr[5];
+				char* tokenPtr = nullptr;
+				int r;
 				int choose = getch();
 				switch (choose) {
 						//圆
-						case '1': {
-								char points[100];
-								int coord[100];
-								char cr[5];
+						case '1':
 								//输入圆心坐标
 								inputbox_getline("请输入【圆心坐标】",
 										"（以空格分隔）",
 										points,
 										sizeof(points) / sizeof(*points));
-								char* tokenPtr = strtok(points, " ");
+								tokenPtr = strtok(points, " ");
 								for (int i = 0; tokenPtr != NULL; i++) {
 										coord[i] = atoi(tokenPtr);
 										tokenPtr = strtok(NULL, " ");
@@ -33,48 +45,51 @@ int main(void){
 										"半径（r）：（按回车结束）",
 										cr,
 										sizeof(cr) / sizeof(*cr));
-								int r = atoi(cr);
-								Circle c{ coord[0], coord[1], r, setBorderColor() };
+								r = atoi(cr);
+								circle[Circle::getCountCircle()] = Circle{ coord[0], coord[1], r };
+								circle[Circle::getCountCircle()].setCountCircle(Circle::getCountCircle() + 1);
+								Shape::setCount(Shape::getCount() + 1);
 								break;
-						}
-								//矩形
-						case '2': {
-								char points[100];
-								int coord[100];
-								char cr[5];
+
+						//矩形
+						case '2':
 								//输入左上和右下顶点坐标
 								inputbox_getline("请输入【左上和右下顶点坐标】",
 										"（以空格分隔）",
 										points,
 										sizeof(points) / sizeof(*points));
-								char* tokenPtr = strtok(points, " ");
+								tokenPtr = strtok(points, " ");
 								for (int i = 0; tokenPtr != NULL; i++) {
 										coord[i] = atoi(tokenPtr);
 										tokenPtr = strtok(NULL, " ");
 								}
-								Rectangle_ r{ coord, setBorderColor() };
+								rectangle_[Rectangle_::getCountRectangle()] = Rectangle_ { coord };
+								Rectangle_::setCountRectangle(Rectangle_::getCountRectangle() + 1);
+								Shape::setCount(Shape::getCount() + 1);
 								break;
-						}
-										//三角形
-						case '3': {
-								char points[100];
-								int coord[100];
-								char cr[5];
+
+						//三角形
+						case '3':
 								//输入左上和右下顶点坐标
 								inputbox_getline("请输入【三个顶点坐标】",
 										"（以空格分隔）",
 										points,
 										sizeof(points) / sizeof(*points));
-								char* tokenPtr = strtok(points, " ");
+								tokenPtr = strtok(points, " ");
 								for (int i = 0; tokenPtr != NULL; i++) {
 										coord[i] = atoi(tokenPtr);
 										tokenPtr = strtok(NULL, " ");
 								}
-								Triangle t{ coord, setBorderColor(), setFillColor() };
+								triangle[Triangle::getCountTriangle()] = Triangle { coord };
+								Triangle::setCountTriangle(Triangle::getCountTriangle() + 1);
 								break;
-						}
+
 						case '4':
 								cleardevice();
+								Shape::setCount(0);
+								Circle::setCount(0);
+								Rectangle_::setCount(0);
+								Triangle::setCount(0);
 								goto a;
 								break;
 				}
@@ -89,38 +104,4 @@ void font(void) {
 		setfont(18, 0, "楷体");
 		setbkmode(TRANSPARENT);
 		Background::line();
-}
-
-//设置颜色
-color_t setBorderColor(void){
-		char color[100];
-		int RGB[100];
-		//输入RGB值
-		inputbox_getline("设置【边框】颜色",
-				"请输入RGB的值（以空格分隔）",
-				color,
-				sizeof(color) / sizeof(*color));
-		char* tokenPtr = strtok(color, " ");
-		for (int i = 0; tokenPtr != NULL && i < 3; i++) {
-				RGB[i] = atoi(tokenPtr);
-				tokenPtr = strtok(NULL, " ");
-		}
-		return(Color(RGB[0], RGB[1], RGB[2]).getColor());
-}
-
-//设置填充颜色
-color_t setFillColor(void) {
-		char color[100];
-		int RGB[100];
-		//输入RGB值
-		inputbox_getline("设置【填充】颜色",
-				"请输入RGB的值（以空格分隔）",
-				color,
-				sizeof(color) / sizeof(*color));
-		char* tokenPtr = strtok(color, " ");
-		for (int i = 0; tokenPtr != NULL && i < 3; i++) {
-				RGB[i] = atoi(tokenPtr);
-				tokenPtr = strtok(NULL, " ");
-		}
-		return(Color(RGB[0], RGB[1], RGB[2]).getColor());
 }
