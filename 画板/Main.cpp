@@ -12,8 +12,6 @@ int Triangle::countTriangle;
 
 int main(void){
 		Background();
-		Circle c1{ 1, 1, 2 };
-		Circle c2{ c1 };
 		Circle circle[10];
 		Rectangle_ rectangle_[10];
 		Triangle triangle[10];
@@ -25,6 +23,7 @@ int main(void){
 				int coord[100];
 				char cr[5];
 				char* tokenPtr = nullptr;
+				Shape* sp = nullptr;
 				int r;
 				int choose = getch();
 				switch (choose) {
@@ -47,6 +46,8 @@ int main(void){
 										sizeof(cr) / sizeof(*cr));
 								r = atoi(cr);
 								circle[Circle::getCountCircle()] = Circle{ coord[0], coord[1], r };
+								sp = &circle[Circle::getCountCircle()];
+								sp->draw();
 								circle[Circle::getCountCircle()].setCountCircle(Circle::getCountCircle() + 1);
 								Shape::setCount(Shape::getCount() + 1);
 								break;
@@ -64,6 +65,8 @@ int main(void){
 										tokenPtr = strtok(NULL, " ");
 								}
 								rectangle_[Rectangle_::getCountRectangle()] = Rectangle_ { coord };
+								sp = &rectangle_[Rectangle_::getCountRectangle()];
+								sp->draw();
 								Rectangle_::setCountRectangle(Rectangle_::getCountRectangle() + 1);
 								Shape::setCount(Shape::getCount() + 1);
 								break;
@@ -81,15 +84,18 @@ int main(void){
 										tokenPtr = strtok(NULL, " ");
 								}
 								triangle[Triangle::getCountTriangle()] = Triangle { coord };
+								sp = &triangle[Triangle::getCountTriangle()];
+								sp->draw();
 								Triangle::setCountTriangle(Triangle::getCountTriangle() + 1);
+								Shape::setCount(Shape::getCount() + 1);
 								break;
 
 						case '4':
 								cleardevice();
 								Shape::setCount(0);
-								Circle::setCount(0);
-								Rectangle_::setCount(0);
-								Triangle::setCount(0);
+								Circle::setCountCircle(0);
+								Rectangle_::setCountRectangle(0);
+								Triangle::setCountTriangle(0);
 								goto a;
 								break;
 				}

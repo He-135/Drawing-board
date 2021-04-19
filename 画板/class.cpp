@@ -14,7 +14,6 @@ void Background::line(void){
 }
 
 //点类
-Point::Point() :Point(0, 160) {}
 Point::Point(int x, int y) {
 		this->x = x;
 		this->y = y;
@@ -31,7 +30,6 @@ int Point::getY(void)const {
 }
 
 //颜色类
-Color::Color() :Color(0, 0, 0) {}
 Color::Color(int R, int G, int B) {
 		this->R = R;
 		this->B = B;
@@ -51,8 +49,12 @@ color_t Color::getColor(void)const {
 //基类shape
 Shape::Shape(const Shape& s) {
 		this->isFill = s.isFill;
-		this->borderColor = new Color(*s.borderColor);
-		this->fillColor = s.fillColor;
+		if(s.borderColor != nullptr){
+				this->borderColor = new Color(*s.borderColor);
+		}
+		if(s.fillColor != nullptr){
+				this->fillColor = new Color(*s.fillColor);
+		}
 }
 Shape::~Shape(){
 		if(borderColor != nullptr){
@@ -70,20 +72,16 @@ void Shape::draw(void) {
 				setFill();
 		}
 }
+
 bool Shape::getBool(void)const {
 		return isFill;
 }
-color_t Shape::getBorder(void)const {
-		return borderColor->getColor();
-}
-color_t Shape::getFill(void)const {
-		return fillColor->getColor();
-}
-int Shape::getCount(void){
-		return count;
-}
 void Shape::setBool(int isFill) {
 		this->isFill = isFill;
+}
+
+color_t Shape::getBorder(void)const {
+		return borderColor->getColor();
 }
 void Shape::setBorder(void) {
 		char color[100];
@@ -101,6 +99,10 @@ void Shape::setBorder(void) {
 		this->borderColor = new Color(RGB[0], RGB[1], RGB[2]);
 		setcolor(borderColor->getColor());
 }
+
+color_t Shape::getFill(void)const {
+		return fillColor->getColor();
+}
 void Shape::setFill(void) {
 		char color[100];
 		int RGB[100];
@@ -117,6 +119,10 @@ void Shape::setFill(void) {
 		fillColor = new Color(RGB[0], RGB[1], RGB[2]);
 		setfillcolor(fillColor->getColor());
 }
+
+int Shape::getCount(void){
+		return count;
+}
 void Shape::setCount(int count_){
 		count = count_;
 }
@@ -126,35 +132,35 @@ Circle::Circle(int x, int y, int r) {
 		Shape::setBool(0);
 		p = Point(x, y);
 		this->r = r;
-		draw();
-		setcolor(BLACK);
 }
-Circle::Circle(const Circle& c){
+Circle::Circle(const Circle& c):Shape(c){
 		this->r = c.r;
 		this->p = Point(c.p);
-		
 }
+void Circle::draw(void) {
+		Shape::draw();
+		circle(p.getX(), p.getY(), r);
+}
+
 int Circle::getRadius(void)const{
 		return r;
 }
+void Circle::setRadius(int r){
+		this->r = r;
+}
+
 Point Circle::getPoint(void)const{
 		return p;
 }
+void Circle::setPoint(int x, int y){
+		this->p = Point(x, y);
+}
+
 int Circle::getCountCircle(void){
 		return countCircle;
 }
 void Circle::setCountCircle(int count){
 	  countCircle = count;
-}
-void Circle::setRadius(int r){
-		this->r = r;
-}
-void Circle::setPoint(int x, int y){
-		this->p = Point(x, y);
-}
-void Circle::draw(void){
-		Shape::draw();
-		circle(p.getX(), p.getY(), r);
 }
 
 //矩形类
@@ -163,22 +169,24 @@ Rectangle_::Rectangle_(int xy[4]) {
 		for(int i = 0, j = 0; i < 4 && j < 2; i++, j++){
 				p[j] = Point(xy[i++], xy[i]);
 		}
-		draw();
-		setcolor(BLACK);
 }
+Rectangle_::Rectangle_(const Rectangle_& r):Shape(r){
+		for(int i = 0; i < 2; i++){
+				this->p[i] = r.p[i];
+		}
+}
+void Rectangle_::draw(void) {
+		Shape::draw();
+		rectangle(p[0].getX(), p[0].getY(), p[1].getX(), p[1].getY());
+}
+
 Point Rectangle_::getPoint(int index)const{
 		return p[index];
 }
 void Rectangle_::setPoint(int x, int y, int index){
 		p[index] = Point(x, y);
 }
-void Rectangle_::draw(void) {
-		Shape::draw();
-		rectangle(p[0].getX(), p[0].getY(), p[1].getX(), p[1].getY());
-}
-Rectangle_::~Rectangle_() {
-		setCount(getCount() - 1);
-}
+
 int Rectangle_::getCountRectangle(void){
 		return countRectangle;
 }
@@ -195,11 +203,10 @@ Triangle::Triangle(int xy[6]) {
 		draw();
 		setcolor(BLACK);
 }
-Point Triangle::getPoint(int index)const {
-		return p[index];
-}
-void Triangle::setPoint(int x, int y, int index) {
-		p[index] = Point(x, y);
+Triangle::Triangle(const Triangle& t):Shape(t){
+		for (int i = 0; i < 3; i++) {
+				this->p[i] = t.p[i];
+		}
 }
 void Triangle::draw(void) {
 		Shape::draw();
@@ -210,9 +217,14 @@ void Triangle::draw(void) {
 		}
 		fillpoly(3, xy);
 }
-Triangle::~Triangle() {
-		setCount(getCount() - 1);
+
+Point Triangle::getPoint(int index)const {
+		return p[index];
 }
+void Triangle::setPoint(int x, int y, int index) {
+		p[index] = Point(x, y);
+}
+
 int Triangle::getCountTriangle(void){
 		return countTriangle;
 }

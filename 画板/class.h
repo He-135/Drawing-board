@@ -18,12 +18,12 @@ class Point{
 private:
 		int x, y;
 public:
-		Point();
+		Point() = default;
 		Point(int, int);
 		Point(const Point&);
+		~Point() = default;
 		int getX(void)const;
 		int getY(void)const;
-		~Point() = default;
 };
 
 //颜色类
@@ -32,7 +32,7 @@ private:
 		int R, G, B;
 		color_t color;
 public:
-		Color();
+		Color() = default;
 		Color(int, int, int);
 		Color(const Color&);
 		~Color() = default;
@@ -44,21 +44,20 @@ class Shape{
 private:
 		bool isFill;
 		Color* borderColor = nullptr;
-		Color borderColor_;
 		Color* fillColor = nullptr;
 		static int count;
 public:
 		Shape() = default;
 		Shape(const Shape&);
 		~Shape();
-		virtual void draw(void);
+		virtual void draw(void) = 0;
 		bool getBool(void)const;
-		color_t getBorder(void)const;
-		color_t getFill(void)const;
-		static int getCount(void);
 		void setBool(int);
+		color_t getBorder(void)const;
 		void setBorder(void);
+		color_t getFill(void)const;
 		void setFill(void);
+		static int getCount(void);
 		static void setCount(int);
 };
 
@@ -73,29 +72,28 @@ public:
 		Circle(int, int, int);
 		Circle(const Circle&);
 		~Circle() = default;
+		void draw(void);
 		int getRadius(void)const;
+		void setRadius(int);
 		Point getPoint(void)const;
+		void setPoint(int, int);
 		static int getCountCircle(void);
 		static void setCountCircle(int);
-		void setRadius(int);
-		void setPoint(int, int);
-		virtual void draw(void);
 };
 
 //矩形类
 class Rectangle_ :public Shape {
 private:
 		Point p[2];
-		bool fill = false;
 		static int countRectangle;
 public:
 		Rectangle_() = default;
 		Rectangle_(int[4]);
 		Rectangle_(const Rectangle_&);
-		~Rectangle_();
+		~Rectangle_() = default;
+		void draw(void);
 		Point getPoint(int)const;
 		void setPoint(int, int, int);
-		void draw(void);
 		static int getCountRectangle(void);
 		static void setCountRectangle(int);
 };
@@ -109,10 +107,10 @@ public:
 		Triangle() = default;
 		Triangle(int[6]);
 		Triangle(const Triangle&);
-		~Triangle();
+		~Triangle() = default;
+		void draw(void);
 		Point getPoint(int)const;
 		void setPoint(int, int, int);
-		void draw(void);
 		static int getCountTriangle(void);
 		static void setCountTriangle(int);
 };
