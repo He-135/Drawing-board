@@ -1,5 +1,10 @@
-#include "class.h"
 #include <iostream>
+#include "Background.h"
+#include "Point.h"
+#include "Color.h"
+#include "Circle.h"
+#include "Rectangle_.h"
+#include "Triangle.h"
 
 void font(void);//设置字体
 color_t setBorderColor(void);//设置颜色

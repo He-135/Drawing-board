@@ -15,7 +15,25 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="class.h">
+    <ClInclude Include="Background.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Point.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Color.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Shape.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Circle.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Rectangle_.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Triangle.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>
@@ -23,8 +41,31 @@
     <ClCompile Include="Main.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="class.cpp">
+    <ClCompile Include="Background.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="Point.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="Color.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="Shape.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="Circle.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="Rectangle_.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="Triangle.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="文本.txt">
+      <Filter>资源文件</Filter>
+    </Text>
   </ItemGroup>
 </Project>

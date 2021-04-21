@@ -114,7 +114,7 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
-      <SDLCheck>true</SDLCheck>
+      <SDLCheck>false</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
     </ClCompile>
@@ -140,11 +140,26 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="class.h" />
+    <ClInclude Include="Background.h" />
+    <ClInclude Include="Circle.h" />
+    <ClInclude Include="Color.h" />
+    <ClInclude Include="Point.h" />
+    <ClInclude Include="Rectangle_.h" />
+    <ClInclude Include="Shape.h" />
+    <ClInclude Include="Triangle.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="class.cpp" />
+    <ClCompile Include="Background.cpp" />
+    <ClCompile Include="Circle.cpp" />
+    <ClCompile Include="Color.cpp" />
     <ClCompile Include="Main.cpp" />
+    <ClCompile Include="Point.cpp" />
+    <ClCompile Include="Rectangle_.cpp" />
+    <ClCompile Include="Shape.cpp" />
+    <ClCompile Include="Triangle.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="文本.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
