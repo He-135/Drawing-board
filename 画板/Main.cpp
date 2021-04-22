@@ -17,12 +17,12 @@ int Triangle::countTriangle;
 
 int main(void){
 		Background();
-		Circle circle[10];
-		Rectangle_ rectangle_[10];
-		Triangle triangle[10];
+		Circle* circle = new Circle[10];
+		Rectangle_* rectangle_ = new Rectangle_[10];
+		Triangle* triangle = new Triangle[10];
 		a:font();
 		outtextrect(0, 0, 640, 480,
-				"请选择作画内容：\n1.圆\n2.矩形\n3.三角形\n4.清空屏幕\n请输入您的选择：");
+				"请选择作画内容：\n1.圆\n2.矩形\n3.三角形\n4.清空屏幕\n5.关闭画板\n请输入您的选择：");
 		while(1){
 				char points[100];
 				int coord[100];
@@ -103,9 +103,16 @@ int main(void){
 								Triangle::setCountTriangle(0);
 								goto a;
 								break;
+						case '5':
+								goto b;
+								break;
 				}
 		}
-		getch();
+    b:closegraph();
+		delete[]circle;
+		delete[]rectangle_;
+		delete[]triangle;
+
 		return 0;
 }
 
