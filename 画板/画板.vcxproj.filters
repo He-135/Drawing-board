@@ -64,7 +64,7 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <Text Include="文本.txt">
+    <Text Include="readme.txt">
       <Filter>资源文件</Filter>
     </Text>
   </ItemGroup>
