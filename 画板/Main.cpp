@@ -28,7 +28,7 @@ int main(void){
 				int coord[100];
 				char cr[5];
 				char* tokenPtr = nullptr;
-				Shape* sp = nullptr;
+				Shape* sp = nullptr;//基类指针
 				int r;
 				int choose = getch();
 				switch (choose) {
@@ -94,7 +94,7 @@ int main(void){
 								Triangle::setCountTriangle(Triangle::getCountTriangle() + 1);
 								Shape::setCount(Shape::getCount() + 1);
 								break;
-
+						//清空屏幕
 						case '4':
 								cleardevice();
 								Shape::setCount(0);
@@ -103,6 +103,7 @@ int main(void){
 								Triangle::setCountTriangle(0);
 								goto a;
 								break;
+						//退出程序
 						case '5':
 								goto b;
 								break;
