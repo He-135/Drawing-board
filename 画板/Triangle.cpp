@@ -5,8 +5,6 @@ Triangle::Triangle(int xy[6]) {
 		for (int i = 0, j = 0; i < 6; j++) {
 				p[j] = Point(xy[i++], xy[i++]);
 		}
-		draw();
-		setcolor(BLACK);
 }
 Triangle::Triangle(const Triangle& t) :Shape(t) {
 		for (int i = 0; i < 3; i++) {
