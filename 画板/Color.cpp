@@ -6,6 +6,7 @@ Color::Color(int R, int G, int B) {
 		this->G = G;
 		color = EGERGB(R, G, B);
 }
+Color::Color(color_t t) :color(t) {}
 Color::Color(const Color& c) {
 		this->R = c.R;
 		this->G = c.G;
@@ -15,3 +16,6 @@ Color::Color(const Color& c) {
 color_t Color::getColor(void)const {
 		return color;
 }
+//void Color::setColor(color_t t){
+//		this->color = t;
+//}

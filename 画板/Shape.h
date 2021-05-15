@@ -18,8 +18,10 @@ public:
 		void setBool(int);
 		color_t getBorder(void)const;
 		void setBorder(void);
+		void setBorder(color_t);
 		color_t getFill(void)const;
 		void setFill(void);
+		void setFill(color_t);
 		static int getCount(void);
 		static void setCount(int);
 };

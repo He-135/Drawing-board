@@ -52,6 +52,9 @@ void Shape::setBorder(void) {
 		this->borderColor = new Color(RGB[0], RGB[1], RGB[2]);
 		setcolor(borderColor->getColor());
 }
+void Shape::setBorder(color_t t){
+		this->borderColor = new Color(t);
+}
 
 color_t Shape::getFill(void)const {
 		return fillColor->getColor();
@@ -71,6 +74,9 @@ void Shape::setFill(void) {
 		}
 		fillColor = new Color(RGB[0], RGB[1], RGB[2]);
 		setfillcolor(fillColor->getColor());
+}
+void Shape::setFill(color_t t){
+		this->fillColor = new Color(t);
 }
 
 int Shape::getCount(void) {

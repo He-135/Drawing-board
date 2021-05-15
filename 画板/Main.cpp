@@ -26,14 +26,105 @@ using std::endl;
 
 int main(void){
 		Background();
-		Circle* circle = new Circle[10];
+		Circle* circle_ = new Circle[10];
 		Rectangle_* rectangle_ = new Rectangle_[10];
 		Triangle* triangle = new Triangle[10];
 		int shape[100];//用于记录图形种类
-		a:font();//清空屏幕后从此处开始执行程序
-		for(int i = 0; i < 100; i++){ //初始化/清空数组内数据
+		font();
+		for(int i = 0; i < 100; i++){ //初始化数组内数据
 				shape[i] = -1;
 		}
+	  //从文件中读取数据
+		fs::path i{"figure files.txt"};
+		ifstream ifs{i};
+		if(ifs.fail()){
+				xyprintf(0, 190, "文件打开失败");
+				Sleep(1000);
+				cleardevice();
+		}
+		else{
+				int count{ 0 }, cir{ 0 }, rec{ 0 }, tri{ 0 };//用于计数
+				ifs >> count;
+				for (int i = 0; i < count; i++) {
+						ifs >> shape[i];
+						if (shape[i] == 1) { //Circle
+								int x, y, r;
+								ifs >> x >> y >> r;
+								circle_[cir] = Circle(x, y, r);
+								color_t t;
+								bool b;
+								ifs >> t >> b;
+								circle_[cir].setBorder(t);
+								circle_[cir].setBool(b);
+								cir++;
+						}
+						else if (shape[i] == 2) {  //Rectangle
+								int xy[4];
+								for (int k = 0; k < 4; k++) {
+										ifs >> xy[k];
+								}
+								rectangle_[rec] = Rectangle_(xy);
+								color_t t;
+								bool b;
+								ifs >> t >> b;
+								rectangle_[rec].setBorder(t);
+								rectangle_[rec].setBool(b);
+								rec++;
+						}
+						else if (shape[i] == 3) {  //Triangle
+								int xy[6];
+								for (int j = 0; j < 6; j++) {
+										ifs >> xy[j];
+								}
+								triangle[tri] = Triangle(xy);
+								color_t t1, t2;
+								bool b;
+								ifs >> t1 >> b >> t2;
+								triangle[tri].setBorder(t1);
+								triangle[tri].setBool(b);
+								triangle[tri].setFill(t2);
+								tri++;
+						}
+				}
+				Shape::setCount(count);
+				Circle::setCountCircle(cir);
+				Rectangle_::setCountRectangle(rec);
+				Triangle::setCountTriangle(tri);
+				//绘制图形
+				cir = 0;
+				rec = 0;
+				tri = 0;
+				//用于计数
+				for (int i = 0; i < count; i++) {
+						if (shape[i] == 1) { //circle
+								setcolor(circle_[cir].getBorder());
+								circle(circle_[cir].getPoint().getX(),
+										circle_[cir].getPoint().getY(),
+										circle_[cir].getRadius());
+								cir++;
+						}
+						else if (shape[i] == 2) { //rectangle
+								setcolor(rectangle_[rec].getBorder());
+								rectangle(rectangle_[rec].getPoint(0).getX(),
+										rectangle_[rec].getPoint(0).getY(),
+										rectangle_[rec].getPoint(1).getX(),
+										rectangle_[rec].getPoint(1).getY());
+								rec++;
+						}
+						else if(shape[i] == 3){ //triangle
+								setcolor(triangle[tri].getBorder());
+								setfillcolor(triangle[tri].getFill());
+								int xy[6];
+								for (int i = 0, j = 0; j < 3; j++) {
+										xy[i++] = triangle[tri].getPoint(j).getX();
+										xy[i++] = triangle[tri].getPoint(j).getY();
+								}
+								fillpoly(3, xy);
+						}
+				}
+		}
+		//清空屏幕后/文件打开失败后从此处开始执行程序
+		a:font();
 		outtextrect(0, 0, 640, 480,
 				"请选择作画内容：\n1.圆\n2.矩形\n3.三角形\n4.清空屏幕\n5.保存并关闭画板\n请输入您的选择：");
 		while(1){
@@ -63,10 +154,10 @@ int main(void){
 										cr,
 										sizeof(cr) / sizeof(*cr));
 								r = atoi(cr);
-								circle[Circle::getCountCircle()] = Circle{ coord[0], coord[1], r };
-								sp = &circle[Circle::getCountCircle()];
+								circle_[Circle::getCountCircle()] = Circle{ coord[0], coord[1], r };
+								sp = &circle_[Circle::getCountCircle()];
 								sp->draw();
-								circle[Circle::getCountCircle()].setCountCircle(Circle::getCountCircle() + 1);//countCircle+1
+								circle_[Circle::getCountCircle()].setCountCircle(Circle::getCountCircle() + 1);//countCircle+1
 								shape[Shape::getCount()] = 1;//记录图形种类
 								Shape::setCount(Shape::getCount() + 1);//Count+1
 								break;
@@ -117,6 +208,9 @@ int main(void){
 								Circle::setCountCircle(0);
 								Rectangle_::setCountRectangle(0);
 								Triangle::setCountTriangle(0);
+								for (int i = 0; i < 100; i++) { //清空数组内数据
+										shape[i] = -1;
+								}
 								goto a;
 								break;
 						//保存并退出程序
@@ -129,14 +223,15 @@ int main(void){
 		fs::path o{"figure files.txt"};
 		ofstream ofs{o};
 		int cir{0}, rec{0}, tri{0};//用于计数
+		ofs << Shape::getCount() << endl;
 		for(int i = 0; shape[i] != -1; i++){
 				ofs << shape[i] << endl;
 				if(shape[i] == 1){  //存储圆的数据
-						ofs << circle[cir].getPoint().getX() << " ";
-						ofs << circle[cir].getPoint().getY() << " ";
-						ofs << circle[cir].getRadius() << endl;
-						ofs << circle[cir].getBorder() << " "
-								<< circle[cir].getBool() << endl;
+						ofs << circle_[cir].getPoint().getX() << " ";
+						ofs << circle_[cir].getPoint().getY() << " ";
+						ofs << circle_[cir].getRadius() << endl;
+						ofs << circle_[cir].getBorder() << " "
+								<< circle_[cir].getBool() << endl;
 						cir++;
 				}
 				else if(shape[i] == 2){
@@ -165,7 +260,7 @@ int main(void){
 		xyprintf(0, 190, "保存成功");
 		Sleep(1000);
 		closegraph();
-		delete[]circle;
+		delete[]circle_;
 		delete[]rectangle_;
 		delete[]triangle;
 
