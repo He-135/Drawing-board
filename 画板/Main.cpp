@@ -1,6 +1,7 @@
 #include <iostream>
 #include <filesystem>
 #include <fstream>
+#include <exception>
 #include "Background.h"
 #include "Point.h"
 #include "Color.h"
@@ -23,6 +24,14 @@ using std::fstream;
 using std::ofstream;
 using std::ifstream;
 using std::endl;
+
+class MyColorError:public std::exception{
+public:
+		MyColorError() = default;
+		const char* what()const noexcept(true) override{
+				return "color error";
+		}
+};
 
 int main(void){
 		Background();
@@ -54,8 +63,18 @@ int main(void){
 								color_t t;
 								bool b;
 								ifs >> t >> b;
-								circle_[cir].setBorder(t);
 								circle_[cir].setBool(b);
+								try
+								{
+										if (t < 0) {
+												throw(MyColorError());
+										}
+										circle_[cir].setBorder(t);
+								}
+								catch (const MyColorError& mc)
+								{
+										circle_[cir].setBorder(BLACK);
+								}
 								cir++;
 						}
 						else if (shape[i] == 2) {  //Rectangle
@@ -67,7 +86,18 @@ int main(void){
 								color_t t;
 								bool b;
 								ifs >> t >> b;
-								rectangle_[rec].setBorder(t);
+								try
+								{
+										if (t < 0) {
+												throw(MyColorError());
+										}
+										rectangle_[rec].setBorder(t);
+								}
+								catch (const MyColorError& mc)
+								{
+										rectangle_[rec].setBorder(BLACK);
+								}
+
 								rectangle_[rec].setBool(b);
 								rec++;
 						}
@@ -80,9 +110,31 @@ int main(void){
 								color_t t1, t2;
 								bool b;
 								ifs >> t1 >> b >> t2;
-								triangle[tri].setBorder(t1);
+								try
+								{
+										if (t1 < 0) {
+												throw(MyColorError());
+										}
+										triangle[tri].setBorder(t1);
+								}
+								catch (const MyColorError& mc)
+								{
+										triangle[tri].setBorder(BLACK);
+								}
+
 								triangle[tri].setBool(b);
-								triangle[tri].setFill(t2);
+
+								try
+								{
+										if (t2 < 0) {
+												throw(MyColorError());
+										}
+										triangle[tri].setFill(t2);
+								}
+								catch (const MyColorError& mc)
+								{
+										triangle[tri].setFill(BLACK);
+								}
 								tri++;
 						}
 				}
@@ -120,6 +172,7 @@ int main(void){
 										xy[i++] = triangle[tri].getPoint(j).getY();
 								}
 								fillpoly(3, xy);
+								tri++;
 						}
 				}
 		}
