@@ -1,6 +1,7 @@
 #pragma once
 #include "graphics.h"
 #include "Color.h"
+#include "Basic.h"
 
 //»ùÀàshape
 class Shape {

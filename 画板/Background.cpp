@@ -5,9 +5,5 @@ Background::Background(int width, int height) {
 		this->width = width;
 		this->height = height;
 		initgraph(width, height);
-		setbkcolor(WHITE);
-		ege::line(160, 0, 160, height);
-}
-void Background::line(void) {
-		ege::line(160, 0, 160, 960);
+		setbkcolor(EGERGB(245, 245, 220));
 }

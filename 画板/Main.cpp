@@ -8,10 +8,7 @@
 #include "Circle.h"
 #include "Rectangle_.h"
 #include "Triangle.h"
-
-void font(void);//设置字体
-color_t setBorderColor(void);//设置颜色
-color_t setFillColor(void);//设置填充颜色
+#include "Basic.h"
 
 //初始化全局变量
 int Shape::count;
@@ -39,7 +36,7 @@ int main(void){
 		Rectangle_* rectangle_ = new Rectangle_[10];
 		Triangle* triangle = new Triangle[10];
 		int shape[100];//用于记录图形种类
-		font();
+		Basic::font();
 		for(int i = 0; i < 100; i++){ //初始化数组内数据
 				shape[i] = -1;
 		}
@@ -177,10 +174,12 @@ int main(void){
 				}
 		}
 		//清空屏幕后/文件打开失败后从此处开始执行程序
-		a:font();
-		outtextrect(0, 0, 640, 480,
-				"请选择作画内容：\n1.圆\n2.矩形\n3.三角形\n4.清空屏幕\n5.保存并关闭画板\n请输入您的选择：");
 		while(1){
+				cleardevice();
+				Basic::reDraw(circle_, rectangle_, triangle, shape);
+				Basic::font();
+				outtextrect(0, 0, 640, 480,
+						"请选择作画内容：\n1.圆\n2.矩形\n3.三角形\n4.清空屏幕\n5.保存并关闭画板\n请输入您的选择：");
 				char points[100];
 				int coord[100];
 				char cr[5];
@@ -209,6 +208,8 @@ int main(void){
 								r = atoi(cr);
 								circle_[Circle::getCountCircle()] = Circle{ coord[0], coord[1], r };
 								sp = &circle_[Circle::getCountCircle()];
+								cleardevice();
+								Basic::reDraw(circle_, rectangle_, triangle, shape);
 								sp->draw();
 								circle_[Circle::getCountCircle()].setCountCircle(Circle::getCountCircle() + 1);//countCircle+1
 								shape[Shape::getCount()] = 1;//记录图形种类
@@ -264,7 +265,6 @@ int main(void){
 								for (int i = 0; i < 100; i++) { //清空数组内数据
 										shape[i] = -1;
 								}
-								goto a;
 								break;
 						//保存并退出程序
 						case '5':
@@ -320,10 +320,3 @@ int main(void){
 		return 0;
 }
 
-//设置文字样式
-void font(void) {
-		setcolor(BLACK);
-		setfont(18, 0, "楷体");
-		setbkmode(TRANSPARENT);
-		Background::line();
-}

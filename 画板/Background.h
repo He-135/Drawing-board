@@ -7,6 +7,5 @@ private:
 public:
 		Background();
 		Background(int, int);
-		static void line(void);
 };
 
