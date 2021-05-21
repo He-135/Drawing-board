@@ -173,13 +173,18 @@ int main(void){
 						}
 				}
 		}
-		//清空屏幕后/文件打开失败后从此处开始执行程序
 		while(1){
 				cleardevice();
 				Basic::reDraw(circle_, rectangle_, triangle, shape);
 				Basic::font();
-				outtextrect(0, 0, 640, 480,
-						"请选择作画内容：\n1.圆\n2.矩形\n3.三角形\n4.清空屏幕\n5.保存并关闭画板\n请输入您的选择：");
+				xyprintf(0,0,"请选择作画内容：");
+				xyprintf(0, 20, "1.圆");
+				xyprintf(0, 40, "2.矩形");
+				xyprintf(0, 60, "3.三角形");
+				xyprintf(0, 80, "4.清空屏幕");
+				xyprintf(0, 100, "5.保存并关闭画板");
+				xyprintf(0, 120, "请输入您的选择：");
+
 				char points[100];
 				int coord[100];
 				char cr[5];
@@ -230,6 +235,8 @@ int main(void){
 								}
 								rectangle_[Rectangle_::getCountRectangle()] = Rectangle_ { coord };
 								sp = &rectangle_[Rectangle_::getCountRectangle()];
+								cleardevice();
+								Basic::reDraw(circle_, rectangle_, triangle, shape);
 								sp->draw();
 								Rectangle_::setCountRectangle(Rectangle_::getCountRectangle() + 1);//countRectangle+1
 								shape[Shape::getCount()] = 2;//记录图形种类
@@ -250,6 +257,8 @@ int main(void){
 								}
 								triangle[Triangle::getCountTriangle()] = Triangle { coord };
 								sp = &triangle[Triangle::getCountTriangle()];
+								cleardevice();
+								Basic::reDraw(circle_, rectangle_, triangle, shape);
 								sp->draw();
 								Triangle::setCountTriangle(Triangle::getCountTriangle() + 1);//countTriangle+1
 								shape[Shape::getCount()] = 3;//记录图形种类

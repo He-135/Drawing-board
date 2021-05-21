@@ -1,8 +1,7 @@
 #pragma once
 #include "graphics.h"
 #include "Color.h"
-#include "Basic.h"
-
+class Basic;
 //»ùÀàshape
 class Shape {
 private:

@@ -2,8 +2,8 @@
 //Èı½ÇĞÎÀà
 Triangle::Triangle(int xy[6]) {
 		Shape::setBool(1);
-		for (int i = 0, j = 0; i < 6; j++) {
-				p[j] = Point(xy[i++], xy[i++]);
+		for (int i = 0, j = 0; i < 6; j++, i += 2) {
+				p[j] = Point(xy[i], xy[i + 1]);
 		}
 }
 Triangle::Triangle(const Triangle& t) :Shape(t) {

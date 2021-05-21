@@ -1,4 +1,5 @@
 #include "Basic.h"
+#include"Shape.h"
 // 设置文字样式
 void Basic::font(void) {
 		setcolor(BLACK);
@@ -30,6 +31,38 @@ void Basic::reDraw(Circle* c, Rectangle_* r, Triangle* t, int* shape) {
 								xy[k++] = t[tri].getPoint(j).getY();
 						}
 						fillpoly(3, xy);
+						tri++;
 				}
+		}
+}
+
+//存储图形颜色
+std::string Basic::saveColor(color_t c){
+		if(c == EGERGB(199, 21, 133)){
+				return "紫罗兰红";
+		}
+		else if(c == EGERGB(255, 0, 255)){
+				return "洋紫";
+		}
+		else if (c == EGERGB(123, 104, 238)) {
+				return "板岩蓝";
+		}
+		else if (c == EGERGB(60, 179, 113)) {
+				return "海洋绿";
+		}
+		else if (c == EGERGB(255, 215, 0)) {
+				return "金色";
+		}
+		else if (c == EGERGB(255, 165, 0)) {
+				return "橙色";
+		}
+		else if (c == EGERGB(255, 0, 0)) {
+				return "红色";
+		}
+		else if (c == EGERGB(0, 0, 0)) {
+				return "黑色";
+		}
+		else{
+				return "自定义颜色";
 		}
 }

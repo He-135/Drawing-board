@@ -2,8 +2,8 @@
 //╬ьпнюЮ
 Rectangle_::Rectangle_(int xy[4]) {
 		Shape::setBool(0);
-		for (int i = 0, j = 0; i < 4 && j < 2; i++, j++) {
-				p[j] = Point(xy[i++], xy[i]);
+		for (int i = 0, j = 0; i < 4 && j < 2; i += 2, j++) {
+				p[j] = Point(xy[i], xy[i + 1]);
 		}
 }
 Rectangle_::Rectangle_(const Rectangle_& r) :Shape(r) {
