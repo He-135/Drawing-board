@@ -67,6 +67,21 @@ void Shape::setBorder(void) {
 				case '8':
 						this->borderColor = new Color(0, 0, 0);
 						break;
+				//case '9':
+				//		char color[100];
+				//		int RGB[100];
+				//		//输入RGB值
+				//		inputbox_getline("自定义【边框】颜色",
+				//				"请输入RGB的值（以空格分隔）",
+				//				color,
+				//				sizeof(color) / sizeof(*color));
+				//		char* tokenPtr = strtok(color, " ");
+				//		for (int i = 0; tokenPtr != NULL && i < 3; i++) {
+				//				RGB[i] = atoi(tokenPtr);
+				//				tokenPtr = strtok(NULL, " ");
+				//		}
+				//		this->borderColor = new Color(RGB[0], RGB[1], RGB[2]);
+				//		break;
 		}
 		setcolor(borderColor->getColor());
 }
@@ -80,7 +95,7 @@ color_t Shape::getFill(void)const {
 void Shape::setFill(void) {
 		Basic::font();
 		outtextrect(0, 220, 640, 960,
-				"请选择填充颜色：\n1.紫罗兰红\n2.洋紫\n3.板岩蓝\n4.海洋绿\n5.金色\n6.橙色\n7.红色\n8.黑色\n请输入您的选择：");
+				"请选择填充颜色：\n1.紫罗兰红\n2.洋紫\n3.板岩蓝\n4.海洋绿\n5.金色\n6.橙色\n7.红色\n8.黑色\n9.自定义颜色\n请输入您的选择：");
 		int choose = getch();
 		switch (choose) {
 		case '1':
@@ -107,6 +122,21 @@ void Shape::setFill(void) {
 		case '8':
 				this->fillColor = new Color(0, 0, 0);
 				break;
+		//case '9':
+		//		char color[100];
+		//		int RGB[100];
+		//		//输入RGB值
+		//		inputbox_getline("自定义【填充】颜色",
+		//				"请输入RGB的值（以空格分隔）",
+		//				color,
+		//				sizeof(color) / sizeof(*color));
+		//		char* tokenPtr = strtok(color, " ");
+		//		for (int i = 0; tokenPtr != NULL && i < 3; i++) {
+		//				RGB[i] = atoi(tokenPtr);
+		//				tokenPtr = strtok(NULL, " ");
+		//		}
+		//		this->fillColor = new Color(RGB[0], RGB[1], RGB[2]);
+		//		break;
 		}
 		setfillcolor(fillColor->getColor());
 }

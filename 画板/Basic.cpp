@@ -36,6 +36,37 @@ void Basic::reDraw(Circle* c, Rectangle_* r, Triangle* t, int* shape) {
 		}
 }
 
+//读取图形颜色
+color_t Basic::readColor(std::string str){
+		if (str == "紫罗兰红") {
+				return EGERGB(199, 21, 133);
+		}
+		else if (str == "洋紫") {
+				return EGERGB(255, 0, 255);
+		}
+		else if (str == "板岩蓝") {
+				return EGERGB(123, 104, 238);
+		}
+		else if (str == "海洋绿") {
+				return EGERGB(60, 179, 113);
+		}
+		else if (str == "金色") {
+				return EGERGB(255, 215, 0);
+		}
+		else if (str == "橙色") {
+				return EGERGB(255, 165, 0);
+		}
+		else if (str == "红色") {
+				return EGERGB(255, 0, 0);
+		}
+		else if (str == "黑色") {
+				return EGERGB(0, 0, 0);
+		}
+		else{
+				throw (ColorError());
+		}
+}
+
 //存储图形颜色
 std::string Basic::saveColor(color_t c){
 		if(c == EGERGB(199, 21, 133)){
@@ -61,8 +92,5 @@ std::string Basic::saveColor(color_t c){
 		}
 		else if (c == EGERGB(0, 0, 0)) {
 				return "黑色";
-		}
-		else{
-				return "自定义颜色";
 		}
 }

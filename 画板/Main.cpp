@@ -2,6 +2,7 @@
 #include <filesystem>
 #include <fstream>
 #include <exception>
+#include <string>
 #include "Background.h"
 #include "Point.h"
 #include "Color.h"
@@ -9,6 +10,7 @@
 #include "Rectangle_.h"
 #include "Triangle.h"
 #include "Basic.h"
+#include "ColorError.h"
 
 //初始化全局变量
 int Shape::count;
@@ -21,14 +23,6 @@ using std::fstream;
 using std::ofstream;
 using std::ifstream;
 using std::endl;
-
-class MyColorError:public std::exception{
-public:
-		MyColorError() = default;
-		const char* what()const noexcept(true) override{
-				return "color error";
-		}
-};
 
 int main(void){
 		Background();
@@ -50,6 +44,9 @@ int main(void){
 		}
 		else{
 				int count{ 0 }, cir{ 0 }, rec{ 0 }, tri{ 0 };//用于计数
+				color_t t;
+				bool b;
+				std::string str;
 				ifs >> count;
 				for (int i = 0; i < count; i++) {
 						ifs >> shape[i];
@@ -57,21 +54,17 @@ int main(void){
 								int x, y, r;
 								ifs >> x >> y >> r;
 								circle_[cir] = Circle(x, y, r);
-								color_t t;
-								bool b;
-								ifs >> t >> b;
-								circle_[cir].setBool(b);
+								ifs >> str >> b;
 								try
 								{
-										if (t < 0) {
-												throw(MyColorError());
-										}
+										t = Basic::readColor(str);
 										circle_[cir].setBorder(t);
 								}
-								catch (const MyColorError& mc)
+								catch (const ColorError& mc)
 								{
 										circle_[cir].setBorder(BLACK);
 								}
+								circle_[cir].setBool(b);
 								cir++;
 						}
 						else if (shape[i] == 2) {  //Rectangle
@@ -80,21 +73,16 @@ int main(void){
 										ifs >> xy[k];
 								}
 								rectangle_[rec] = Rectangle_(xy);
-								color_t t;
-								bool b;
-								ifs >> t >> b;
+								ifs >> str >> b;
 								try
 								{
-										if (t < 0) {
-												throw(MyColorError());
-										}
+										t = Basic::readColor(str);
 										rectangle_[rec].setBorder(t);
 								}
-								catch (const MyColorError& mc)
+								catch (const ColorError& mc)
 								{
 										rectangle_[rec].setBorder(BLACK);
 								}
-
 								rectangle_[rec].setBool(b);
 								rec++;
 						}
@@ -104,31 +92,24 @@ int main(void){
 										ifs >> xy[j];
 								}
 								triangle[tri] = Triangle(xy);
-								color_t t1, t2;
-								bool b;
-								ifs >> t1 >> b >> t2;
+								ifs >> str >> b;
 								try
 								{
-										if (t1 < 0) {
-												throw(MyColorError());
-										}
-										triangle[tri].setBorder(t1);
+										t = Basic::readColor(str);
+										triangle[tri].setBorder(t);
 								}
-								catch (const MyColorError& mc)
+								catch (const ColorError& mc)
 								{
 										triangle[tri].setBorder(BLACK);
 								}
-
 								triangle[tri].setBool(b);
-
+								ifs >> str;
 								try
 								{
-										if (t2 < 0) {
-												throw(MyColorError());
-										}
-										triangle[tri].setFill(t2);
+										t = Basic::readColor(str);
+										triangle[tri].setFill(t);
 								}
-								catch (const MyColorError& mc)
+								catch (const ColorError& mc)
 								{
 										triangle[tri].setFill(BLACK);
 								}
@@ -292,7 +273,7 @@ int main(void){
 						ofs << circle_[cir].getPoint().getX() << " ";
 						ofs << circle_[cir].getPoint().getY() << " ";
 						ofs << circle_[cir].getRadius() << endl;
-						ofs << circle_[cir].getBorder() << " "
+						ofs << Basic::saveColor(circle_[cir].getBorder()) << " "
 								<< circle_[cir].getBool() << endl;
 						cir++;
 				}
@@ -301,7 +282,7 @@ int main(void){
 						ofs << rectangle_[rec].getPoint(0).getY() << " ";
 						ofs << rectangle_[rec].getPoint(1).getX() << " ";
 						ofs << rectangle_[rec].getPoint(1).getY() << endl;
-						ofs << rectangle_[rec].getBorder() << " "
+						ofs << Basic::saveColor(rectangle_[rec].getBorder()) << " "
 								<< rectangle_[rec].getBool() << endl;
 						rec++;
 				}
@@ -312,9 +293,9 @@ int main(void){
 						ofs << triangle[tri].getPoint(1).getY() << " ";
 						ofs << triangle[tri].getPoint(2).getX() << " ";
 						ofs << triangle[tri].getPoint(2).getY() << endl;
-						ofs << triangle[tri].getBorder() << " "
+						ofs << Basic::saveColor(triangle[tri].getBorder()) << " "
 								<< triangle[tri].getBool() << " "
-								<< triangle[tri].getFill() << endl;
+								<< Basic::saveColor(triangle[tri].getFill()) << endl;
 						tri++;
 				}
 		}
