@@ -2,11 +2,13 @@
 //基础功能类
 #include <iostream>
 #include <string>
-#include "Circle.h"
 #include "Rectangle_.h"
 #include "Triangle.h"
 #include "ColorError.h"
 class Shape;
+class Circle;
+class Rectangle_;
+class Triangle;
 class Basic{
 public:
 		Basic() = default;

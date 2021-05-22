@@ -263,39 +263,25 @@ int main(void){
 				}
 		}
 		b://存储数据
+		int cir{ 0 }, rec{ 0 }, tri{ 0 };//用于计数
 		fs::path o{"figure files.txt"};
-		ofstream ofs{o};
-		int cir{0}, rec{0}, tri{0};//用于计数
+		fstream ofs{o, std::ios::out};
 		ofs << Shape::getCount() << endl;
+		ofs.close();
 		for(int i = 0; shape[i] != -1; i++){
+				fstream ofs{ o, std::ios::app };
 				ofs << shape[i] << endl;
+				ofs.close();
 				if(shape[i] == 1){  //存储圆的数据
-						ofs << circle_[cir].getPoint().getX() << " ";
-						ofs << circle_[cir].getPoint().getY() << " ";
-						ofs << circle_[cir].getRadius() << endl;
-						ofs << Basic::saveColor(circle_[cir].getBorder()) << " "
-								<< circle_[cir].getBool() << endl;
+						circle_[cir].saveCircle();
 						cir++;
 				}
 				else if(shape[i] == 2){
-						ofs << rectangle_[rec].getPoint(0).getX() << " ";
-						ofs << rectangle_[rec].getPoint(0).getY() << " ";
-						ofs << rectangle_[rec].getPoint(1).getX() << " ";
-						ofs << rectangle_[rec].getPoint(1).getY() << endl;
-						ofs << Basic::saveColor(rectangle_[rec].getBorder()) << " "
-								<< rectangle_[rec].getBool() << endl;
+						rectangle_[rec].saveRectangle();
 						rec++;
 				}
 				else if(shape[i] == 3){
-						ofs << triangle[tri].getPoint(0).getX() << " ";
-						ofs << triangle[tri].getPoint(0).getY() << " ";
-						ofs << triangle[tri].getPoint(1).getX() << " ";
-						ofs << triangle[tri].getPoint(1).getY() << " ";
-						ofs << triangle[tri].getPoint(2).getX() << " ";
-						ofs << triangle[tri].getPoint(2).getY() << endl;
-						ofs << Basic::saveColor(triangle[tri].getBorder()) << " "
-								<< triangle[tri].getBool() << " "
-								<< Basic::saveColor(triangle[tri].getFill()) << endl;
+						triangle[tri].saveTriangle();
 						tri++;
 				}
 		}

@@ -1,6 +1,9 @@
 #pragma once
+#include <filesystem>
+#include <fstream>
 #include "Shape.h"
 #include "Point.h"
+class Basic;
 //‘≤–Œ¿‡
 class Circle :public Shape {
 private:
@@ -19,5 +22,6 @@ public:
 		void setPoint(int, int);
 		static int getCountCircle(void);
 		static void setCountCircle(int);
+		void saveCircle(void);
 };
 

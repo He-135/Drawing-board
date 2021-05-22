@@ -1,6 +1,9 @@
 #pragma once
+#include <filesystem>
+#include <fstream>
 #include "Shape.h"
 #include "Point.h"
+class Basic;
 //Èý½ÇÐÎÀà
 class Triangle :public Shape {
 private:
@@ -16,5 +19,6 @@ public:
 		void setPoint(int, int, int);
 		static int getCountTriangle(void);
 		static void setCountTriangle(int);
+		void saveTriangle(void);
 };
 

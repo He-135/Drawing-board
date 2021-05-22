@@ -1,5 +1,9 @@
 #include "Basic.h"
 #include"Shape.h"
+#include "Circle.h"
+#include "Rectangle_.h"
+#include "Triangle.h"
+
 // 设置文字样式
 void Basic::font(void) {
 		setcolor(BLACK);

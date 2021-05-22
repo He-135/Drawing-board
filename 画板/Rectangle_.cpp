@@ -1,4 +1,5 @@
 #include "Rectangle_.h"
+#include "Basic.h"
 //æÿ–Œ¿‡
 Rectangle_::Rectangle_(int xy[4]) {
 		Shape::setBool(0);
@@ -28,4 +29,16 @@ int Rectangle_::getCountRectangle(void) {
 }
 void Rectangle_::setCountRectangle(int count) {
 		countRectangle = count;
+}
+
+void Rectangle_::saveRectangle(void){
+		std::filesystem::path o{"figure files.txt"};
+	  std::fstream ofs{o, std::ios::app};
+		ofs << this->getPoint(0).getX() << " "
+				<< this->getPoint(0).getY() << " "
+				<< this->getPoint(1).getX() << " "
+				<< this->getPoint(1).getY() << std::endl
+				<< Basic::saveColor(this->getBorder()) << " "
+				<< this->getBool() << std::endl;
+		ofs.close();
 }

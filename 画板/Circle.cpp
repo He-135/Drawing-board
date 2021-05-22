@@ -1,4 +1,5 @@
 #include "Circle.h"
+#include "Basic.h"
 //‘≤¿‡
 Circle::Circle(int x, int y, int r) {
 		Shape::setBool(0);
@@ -33,4 +34,15 @@ int Circle::getCountCircle(void) {
 }
 void Circle::setCountCircle(int count) {
 		countCircle = count;
+}
+
+void Circle::saveCircle(void){
+		std::filesystem::path o("figure files.txt");
+		std::fstream ofs{o, std::ios::app};
+		ofs << this->getPoint().getX() << " "
+				<< this->getPoint().getY() << " "
+				<< this->getRadius() << std::endl
+				<< Basic::saveColor(this->getBorder()) << " "
+				<< this->getBool() << std::endl;
+		ofs.close();
 }
