@@ -50,3 +50,41 @@ void Triangle::saveTriangle (void){
 				<< Basic::saveColor(this->getFill()) << std::endl;
 		ofs.close();
 }
+
+void Triangle::readTriangle(long int& loc){
+		std::fstream ifs{ "figure files.txt", std::ios::in };
+		ifs.seekg(loc, std::ios::beg);
+		int xy[6];
+		std::string str;
+		bool b;
+		color_t t;
+		for (int j = 0; j < 6; j++) {
+				ifs >> xy[j];
+		}
+		this->setPoint(xy[0], xy[1], 0);
+		this->setPoint(xy[2], xy[3], 1);
+		this->setPoint(xy[4], xy[5], 2);
+		ifs >> str >> b;
+		try
+		{
+				t = Basic::readColor(str);
+				this->setBorder(t);
+		}
+		catch (const ColorError& mc)
+		{
+				this->setBorder(BLACK);
+		}
+		this->setBool(b);
+		ifs >> str;
+		try
+		{
+				t = Basic::readColor(str);
+				this->setFill(t);
+		}
+		catch (const ColorError& mc)
+		{
+				this->setFill(BLACK);
+		}
+		loc = ifs.tellg();
+		ifs.close();
+}

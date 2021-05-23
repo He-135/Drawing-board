@@ -46,3 +46,28 @@ void Circle::saveCircle(void){
 				<< this->getBool() << std::endl;
 		ofs.close();
 }
+
+void Circle::readCircle(long int& loc){
+		std::fstream ifs{ "figure files.txt", std::ios::in};
+		ifs.seekg(loc, std::ios::beg);
+		int x, y, r;
+		bool b;
+		color_t t;
+		std::string str;
+		ifs >> x >> y >> r;
+		this->setPoint(x, y);
+		this->setRadius(r);
+		ifs >> str >> b;
+		try
+		{
+				t = Basic::readColor(str);
+				this->setBorder(t);
+		}
+		catch (const ColorError&)
+		{
+				this->setBorder(BLACK);
+		}
+		this->setBool(b);
+		loc = ifs.tellg();
+		ifs.close();
+}

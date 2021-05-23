@@ -36,83 +36,36 @@ int main(void){
 		}
 	  //从文件中读取数据
 		fs::path i{"figure files.txt"};
-		ifstream ifs{i};
+		fstream ifs{i, std::ios::in};
 		if(ifs.fail()){
 				xyprintf(0, 190, "文件打开失败");
+				ifs.close();
 				Sleep(1000);
 				cleardevice();
 		}
 		else{
 				int count{ 0 }, cir{ 0 }, rec{ 0 }, tri{ 0 };//用于计数
-				color_t t;
-				bool b;
-				std::string str;
+				long int loc{0};
+				ifs.seekg(loc, std::ios::beg);
 				ifs >> count;
+				loc = ifs.tellg();
+				ifs.close();
 				for (int i = 0; i < count; i++) {
+						fstream ifs{ "figure files.txt", std::ios::in};
+						ifs.seekg(loc, std::ios::beg);
 						ifs >> shape[i];
+						loc = ifs.tellg();
+						ifs.close();
 						if (shape[i] == 1) { //Circle
-								int x, y, r;
-								ifs >> x >> y >> r;
-								circle_[cir] = Circle(x, y, r);
-								ifs >> str >> b;
-								try
-								{
-										t = Basic::readColor(str);
-										circle_[cir].setBorder(t);
-								}
-								catch (const ColorError& mc)
-								{
-										circle_[cir].setBorder(BLACK);
-								}
-								circle_[cir].setBool(b);
+								circle_[cir].readCircle(loc);
 								cir++;
 						}
 						else if (shape[i] == 2) {  //Rectangle
-								int xy[4];
-								for (int k = 0; k < 4; k++) {
-										ifs >> xy[k];
-								}
-								rectangle_[rec] = Rectangle_(xy);
-								ifs >> str >> b;
-								try
-								{
-										t = Basic::readColor(str);
-										rectangle_[rec].setBorder(t);
-								}
-								catch (const ColorError& mc)
-								{
-										rectangle_[rec].setBorder(BLACK);
-								}
-								rectangle_[rec].setBool(b);
+								rectangle_[rec].readRectangle(loc);
 								rec++;
 						}
 						else if (shape[i] == 3) {  //Triangle
-								int xy[6];
-								for (int j = 0; j < 6; j++) {
-										ifs >> xy[j];
-								}
-								triangle[tri] = Triangle(xy);
-								ifs >> str >> b;
-								try
-								{
-										t = Basic::readColor(str);
-										triangle[tri].setBorder(t);
-								}
-								catch (const ColorError& mc)
-								{
-										triangle[tri].setBorder(BLACK);
-								}
-								triangle[tri].setBool(b);
-								ifs >> str;
-								try
-								{
-										t = Basic::readColor(str);
-										triangle[tri].setFill(t);
-								}
-								catch (const ColorError& mc)
-								{
-										triangle[tri].setFill(BLACK);
-								}
+								triangle[tri].readTriangle(loc);
 								tri++;
 						}
 				}
@@ -120,39 +73,6 @@ int main(void){
 				Circle::setCountCircle(cir);
 				Rectangle_::setCountRectangle(rec);
 				Triangle::setCountTriangle(tri);
-				//绘制图形
-				cir = 0;
-				rec = 0;
-				tri = 0;
-				//用于计数
-				for (int i = 0; i < count; i++) {
-						if (shape[i] == 1) { //circle
-								setcolor(circle_[cir].getBorder());
-								circle(circle_[cir].getPoint().getX(),
-										circle_[cir].getPoint().getY(),
-										circle_[cir].getRadius());
-								cir++;
-						}
-						else if (shape[i] == 2) { //rectangle
-								setcolor(rectangle_[rec].getBorder());
-								rectangle(rectangle_[rec].getPoint(0).getX(),
-										rectangle_[rec].getPoint(0).getY(),
-										rectangle_[rec].getPoint(1).getX(),
-										rectangle_[rec].getPoint(1).getY());
-								rec++;
-						}
-						else if(shape[i] == 3){ //triangle
-								setcolor(triangle[tri].getBorder());
-								setfillcolor(triangle[tri].getFill());
-								int xy[6];
-								for (int i = 0, j = 0; j < 3; j++) {
-										xy[i++] = triangle[tri].getPoint(j).getX();
-										xy[i++] = triangle[tri].getPoint(j).getY();
-								}
-								fillpoly(3, xy);
-								tri++;
-						}
-				}
 		}
 		while(1){
 				cleardevice();

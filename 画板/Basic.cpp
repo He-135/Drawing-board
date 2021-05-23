@@ -18,13 +18,17 @@ void Basic::reDraw(Circle* c, Rectangle_* r, Triangle* t, int* shape) {
 		for (int i = 0; i < Shape::getCount(); i++) {
 				if (shape[i] == 1) {
 						setcolor(c[cir].getBorder());
-						circle(c[cir].getPoint().getX(), c[cir].getPoint().getY(), c[cir].getRadius());
+						circle(c[cir].getPoint().getX(),
+								c[cir].getPoint().getY(),
+								c[cir].getRadius());
 						cir++;
 				}
 				else if (shape[i] == 2) {
 						setcolor(r[rec].getBorder());
-						rectangle(r[rec].getPoint(0).getX(), r[rec].getPoint(0).getY(),
-								r[rec].getPoint(1).getX(), r[rec].getPoint(1).getY());
+						rectangle(r[rec].getPoint(0).getX(),
+								r[rec].getPoint(0).getY(),
+								r[rec].getPoint(1).getX(),
+								r[rec].getPoint(1).getY());
 						rec++;
 				}
 				else if (shape[i] == 3) {
@@ -42,28 +46,28 @@ void Basic::reDraw(Circle* c, Rectangle_* r, Triangle* t, int* shape) {
 
 //¶ÁÈ¡Í¼ÐÎÑÕÉ«
 color_t Basic::readColor(std::string str){
-		if (str == "×ÏÂÞÀ¼ºì") {
+		if (str == "purple_red") {
 				return EGERGB(199, 21, 133);
 		}
-		else if (str == "Ñó×Ï") {
+		else if (str == "purple") {
 				return EGERGB(255, 0, 255);
 		}
-		else if (str == "°åÑÒÀ¶") {
+		else if (str == "blue") {
 				return EGERGB(123, 104, 238);
 		}
-		else if (str == "º£ÑóÂÌ") {
+		else if (str == "green") {
 				return EGERGB(60, 179, 113);
 		}
-		else if (str == "½ðÉ«") {
+		else if (str == "gold") {
 				return EGERGB(255, 215, 0);
 		}
-		else if (str == "³ÈÉ«") {
+		else if (str == "orange") {
 				return EGERGB(255, 165, 0);
 		}
-		else if (str == "ºìÉ«") {
+		else if (str == "red") {
 				return EGERGB(255, 0, 0);
 		}
-		else if (str == "ºÚÉ«") {
+		else if (str == "black") {
 				return EGERGB(0, 0, 0);
 		}
 		else{
@@ -74,27 +78,27 @@ color_t Basic::readColor(std::string str){
 //´æ´¢Í¼ÐÎÑÕÉ«
 std::string Basic::saveColor(color_t c){
 		if(c == EGERGB(199, 21, 133)){
-				return "×ÏÂÞÀ¼ºì";
+				return "purple_red";
 		}
 		else if(c == EGERGB(255, 0, 255)){
-				return "Ñó×Ï";
+				return "purple";
 		}
 		else if (c == EGERGB(123, 104, 238)) {
-				return "°åÑÒÀ¶";
+				return "blue";
 		}
 		else if (c == EGERGB(60, 179, 113)) {
-				return "º£ÑóÂÌ";
+				return "green";
 		}
 		else if (c == EGERGB(255, 215, 0)) {
-				return "½ðÉ«";
+				return "gold";
 		}
 		else if (c == EGERGB(255, 165, 0)) {
-				return "³ÈÉ«";
+				return "orange";
 		}
 		else if (c == EGERGB(255, 0, 0)) {
-				return "ºìÉ«";
+				return "red";
 		}
 		else if (c == EGERGB(0, 0, 0)) {
-				return "ºÚÉ«";
+				return "black";
 		}
 }

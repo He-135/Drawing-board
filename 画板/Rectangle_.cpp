@@ -42,3 +42,30 @@ void Rectangle_::saveRectangle(void){
 				<< this->getBool() << std::endl;
 		ofs.close();
 }
+
+void Rectangle_::readRectangle(long int& loc){
+		std::fstream ifs{ "figure files.txt", std::ios::in};
+		ifs.seekg(loc, std::ios::beg);
+		int xy[4];
+		std::string str;
+		bool b;
+		color_t t;
+		for (int k = 0; k < 4; k++) {
+				ifs >> xy[k];
+		}
+		this->setPoint(xy[0], xy[1], 0);
+		this->setPoint(xy[2], xy[3], 1);
+		ifs >> str >> b;
+		try
+		{
+				t = Basic::readColor(str);
+				this->setBorder(t);
+		}
+		catch (const ColorError&)
+		{
+				this->setBorder(BLACK);
+		}
+		this->setBool(b);
+		loc = ifs.tellg();
+		ifs.close();
+}

@@ -1,6 +1,7 @@
 #pragma once
 #include <filesystem>
 #include <fstream>
+#include <string>
 #include "Shape.h"
 #include "Point.h"
 class Basic;
@@ -23,5 +24,6 @@ public:
 		static int getCountCircle(void);
 		static void setCountCircle(int);
 		void saveCircle(void);
+		void readCircle(long int&);
 };
 

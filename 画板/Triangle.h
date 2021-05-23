@@ -20,5 +20,6 @@ public:
 		static int getCountTriangle(void);
 		static void setCountTriangle(int);
 		void saveTriangle(void);
+		void readTriangle(long int&);
 };
 

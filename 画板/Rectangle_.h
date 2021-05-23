@@ -20,5 +20,6 @@ public:
 		static int getCountRectangle(void);
 		static void setCountRectangle(int);
 		void saveRectangle(void);
+		void readRectangle(long int&);
 };
 
