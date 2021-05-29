@@ -3,6 +3,7 @@
 #include <fstream>
 #include "Shape.h"
 #include "Point.h"
+#include <cmath>
 class Basic;
 //矩形类
 class Rectangle_ :public Shape {
@@ -19,7 +20,18 @@ public:
 		void setPoint(int, int, int);
 		static int getCountRectangle(void);
 		static void setCountRectangle(int);
-		void saveRectangle(void);
+		int getArea(void)const;
+		void saveRectangle(void)const;
 		void readRectangle(long int&);
+		//比较面积大小
+		bool operator<(const Rectangle_&)const;
+		bool operator>(const Rectangle_&)const;
+		bool operator<=(const Rectangle_&)const;
+		bool operator>=(const Rectangle_&)const;
+		//比较坐标是否相同
+		bool operator==(const Rectangle_&)const;
+		bool operator!=(const Rectangle_&)const;
+		Rectangle_& operator=(const Rectangle_&);
+		Point& operator[](const int&);
 };
 

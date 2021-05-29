@@ -19,7 +19,17 @@ public:
 		void setPoint(int, int, int);
 		static int getCountTriangle(void);
 		static void setCountTriangle(int);
-		void saveTriangle(void);
+		int getArea(void)const;
+		void saveTriangle(void)const;
 		void readTriangle(long int&);
+		//比较面积大小
+		bool operator<(const Triangle&)const;
+		bool operator>(const Triangle&)const;
+		bool operator<=(const Triangle&)const;
+		bool operator>=(const Triangle&)const;
+		bool operator==(const Triangle&)const;
+		bool operator!=(const Triangle&)const;
+		Triangle& operator=(const Triangle&);
+		Point& operator[](const int&);
 };
 

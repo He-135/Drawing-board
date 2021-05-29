@@ -31,7 +31,12 @@ void Rectangle_::setCountRectangle(int count) {
 		countRectangle = count;
 }
 
-void Rectangle_::saveRectangle(void){
+int Rectangle_::getArea(void)const{
+		int L = abs(p[0].getX() - p[1].getX());
+		int W = abs(p[0].getY() - p[1].getY());
+		return (L * W);
+}
+void Rectangle_::saveRectangle(void)const {
 		std::filesystem::path o{"figure files.txt"};
 	  std::fstream ofs{o, std::ios::app};
 		ofs << this->getPoint(0).getX() << " "
@@ -68,4 +73,74 @@ void Rectangle_::readRectangle(long int& loc){
 		this->setBool(b);
 		loc = ifs.tellg();
 		ifs.close();
+}
+bool Rectangle_::operator<(const Rectangle_& r)const {
+		if (this->getArea() < r.getArea()) {
+				return true;
+		}
+		else {
+				return false;
+		}
+}
+bool Rectangle_::operator>(const Rectangle_& r)const {
+		if (this->getArea() > r.getArea()) {
+				return true;
+		}
+		else {
+				return false;
+		}
+}
+bool Rectangle_::operator<=(const Rectangle_& r) const {
+		if (this->getArea() <= r.getArea()) {
+				return true;
+		}
+		else {
+				return false;
+		}
+}
+bool Rectangle_::operator>=(const Rectangle_& r)const {
+		if (this->getArea() >= r.getArea()) {
+				return true;
+		}
+		else {
+				return false;
+		}
+}
+bool Rectangle_::operator==(const Rectangle_& r)const {
+		if(this->p[0] == r.p[0]
+				&& this->p[0] == r.p[0]
+				&& this->p[0] == r.p[0]){
+				return true;
+		}
+		else{
+				return false;
+		}
+}
+bool Rectangle_::operator!=(const Rectangle_& r)const {
+		if (this->p[0] != r.p[0]
+				|| this->p[0] != r.p[0]
+				|| this->p[0] != r.p[0]) {
+				return true;
+		}
+		else {
+				return false;
+		}
+}
+Rectangle_& Rectangle_::operator=(const Rectangle_& r){
+		this->p[0] = r.p[0];
+		this->p[1] = r.p[1];
+		this->setBool(r.getBool());
+		this->setBorder(r.getBorder());//这里对指针进行了深拷贝
+		return *this;
+}
+Point& Rectangle_::operator[](const int& index){
+		if(index == 0){
+				return this->p[0];
+		}
+		else if (index == 1) {
+				return this->p[1];
+		}
+		else {
+				throw std::out_of_range("The index is" + std::to_string(index));
+		}
 }

@@ -1,4 +1,6 @@
 #pragma once
+#define SHOW_CONSOLE
+
 #include "graphics.h"
 #include "Color.h"
 class Basic;

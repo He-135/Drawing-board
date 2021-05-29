@@ -36,7 +36,16 @@ void Triangle::setCountTriangle(int count) {
 		countTriangle = count;
 }
 
-void Triangle::saveTriangle (void){
+int Triangle::getArea(void)const{
+		int area = p[0].getX() * p[1].getY()
+				- p[0].getX() * p[2].getY()
+				+ p[1].getX() * p[2].getY()
+				- p[1].getX() * p[0].getY()
+				+ p[2].getX() * p[0].getY()
+				- p[1].getX() * p[1].getY();
+		return area;
+}
+void Triangle::saveTriangle (void)const {
 		std::filesystem::path o{"figure files.txt"};
 		std::fstream ofs{o, std::ios::app};
 		ofs << this->getPoint(0).getX() << " "
@@ -87,4 +96,75 @@ void Triangle::readTriangle(long int& loc){
 		}
 		loc = ifs.tellg();
 		ifs.close();
+}
+bool Triangle::operator<(const Triangle& t)const {
+		if (this->getArea() < t.getArea()) {
+				return true;
+		}
+		else {
+				return false;
+		}
+}
+bool Triangle::operator>(const Triangle& t)const {
+		if (this->getArea() > t.getArea()) {
+				return true;
+		}
+		else {
+				return false;
+		}
+}
+bool Triangle::operator<=(const Triangle& t) const {
+		if (this->getArea() <= t.getArea()) {
+				return true;
+		}
+		else {
+				return false;
+		}
+}
+bool Triangle::operator>=(const Triangle& t) const {
+		if (this->getArea() >= t.getArea()) {
+				return true;
+		}
+		else {
+				return false;
+		}
+}
+bool Triangle::operator==(const Triangle& t)const {
+		if(this->p[0] == t.p[0] && this->p[1] == t.p[1]){
+				return true;
+		}
+		else{
+				return false;
+		}
+}
+bool Triangle::operator!=(const Triangle& t)const {
+		if (this->p[0] != t.p[0] || this->p[1] != t.p[1]) {
+				return true;
+		}
+		else {
+				return false;
+		}
+}
+Triangle& Triangle::operator=(const Triangle& t){
+		for(int i = 0; i < 3; i++){
+				this->p[i] = t.p[i];
+		}
+		this->setBool(t.getBool());
+		this->setBorder(t.getBorder());//这里对指针进行了深拷贝
+		this->setFill(t.getFill());//这里对指针进行了深拷贝
+		return *this;
+}
+Point& Triangle::operator[](const int& index){
+		if(index == 0){
+				return this->p[0];
+		}
+		else if (index == 1) {
+				return this->p[1];
+		}
+		else if (index == 2) {
+				return this->p[2];
+		}
+		else {
+				throw std::out_of_range("The index is" + std::to_string(index));
+		}
 }

@@ -23,7 +23,16 @@ public:
 		void setPoint(int, int);
 		static int getCountCircle(void);
 		static void setCountCircle(int);
-		void saveCircle(void);
+		void saveCircle(void)const;
 		void readCircle(long int&);
+		//�Ƚϰ뾶
+		bool operator<(const Circle&)const;
+		bool operator>(const Circle&)const;
+		bool operator<=(const Circle&)const;
+		bool operator>=(const Circle&)const;
+		bool operator==(const Circle&)const;
+		bool operator!=(const Circle&)const;
+		Circle& operator=(const Circle&);
+		Point& operator[](const int&);
 };
 

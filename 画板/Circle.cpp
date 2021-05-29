@@ -36,7 +36,7 @@ void Circle::setCountCircle(int count) {
 		countCircle = count;
 }
 
-void Circle::saveCircle(void){
+void Circle::saveCircle(void)const {
 		std::filesystem::path o("figure files.txt");
 		std::fstream ofs{o, std::ios::app};
 		ofs << this->getPoint().getX() << " "
@@ -70,4 +70,67 @@ void Circle::readCircle(long int& loc){
 		this->setBool(b);
 		loc = ifs.tellg();
 		ifs.close();
+}
+bool Circle::operator<(const Circle& c)const {
+		if(this->r < c.r){
+				return true;
+		}
+		else{
+				return false;
+	  }
+}
+bool Circle::operator>(const Circle& c)const {
+		if (this->r > c.r) {
+				return true;
+		}
+		else {
+				return false;
+		}
+}
+bool Circle::operator<=(const Circle& c)const {
+		if (this->r <= c.r) {
+				return true;
+		}
+		else {
+				return false;
+		}
+}
+bool Circle::operator>=(const Circle& c)const {
+		if (this->r >= c.r) {
+				return true;
+		}
+		else {
+				return false;
+		}
+}
+bool Circle::operator==(const Circle& c)const {
+		if (this->p == c.p && this->r == c.r) {
+				return true;
+		}
+		else {
+				return false;
+		}
+}
+bool Circle::operator!=(const Circle& c)const {
+		if (this->p != c.p || this->r != c.r) {
+				return true;
+		}
+		else {
+				return false;
+		}
+}
+Circle& Circle::operator=(const Circle& c){
+		this->r = c.r;
+		this->p = c.p;
+		this->setBool(c.getBool());
+		this->setBorder(c.getBorder());//这里进行了对指针的深拷贝
+		return *this;
+}
+Point& Circle::operator[](const int& index){
+		if(index == 0){
+				return this->p;
+		}
+		else{
+				throw std::out_of_range("The index is" + std::to_string(index));
+		}
 }
