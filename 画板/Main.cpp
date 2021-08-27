@@ -25,7 +25,7 @@ using std::ifstream;
 using std::cout;
 using std::endl;
 int main(void){
-		{//测试operator
+		/*{//测试operator
 				//Point
 				cout << "Test Point operator" << endl;
 				Point a(1, 4);
@@ -186,7 +186,7 @@ int main(void){
 				cout << "t1[0] = " << t1[0].tostring() << endl;
 				//cout << "t1[3] = " << t1[3].tostring() << endl;//会报错out_of_range
 
-		}
+		}*/
 		Background();
 		Circle* circle_ = new Circle[10];
 		Rectangle_* rectangle_ = new Rectangle_[10];
@@ -255,6 +255,11 @@ int main(void){
 				Shape* sp = nullptr;//基类指针
 				int r;
 				int choose = getch();
+
+				Circle _c;//临时对像
+				Rectangle_ _r;
+				Triangle _t;
+
 				switch (choose) {
 						//圆
 						case '1':
@@ -274,11 +279,14 @@ int main(void){
 										cr,
 										sizeof(cr) / sizeof(*cr));
 								r = atoi(cr);
-								circle_[Circle::getCountCircle()] = Circle{ coord[0], coord[1], r };
-								sp = &circle_[Circle::getCountCircle()];
+								_c.setBool(0);
+								_c.setPoint(coord[0], coord[1]);
+								_c.setRadius(r);
+								sp = &_c;
 								cleardevice();
 								Basic::reDraw(circle_, rectangle_, triangle, shape);
 								sp->draw();
+								circle_[Circle::getCountCircle()] = _c;
 								circle_[Circle::getCountCircle()].setCountCircle(Circle::getCountCircle() + 1);//countCircle+1
 								shape[Shape::getCount()] = 1;//记录图形种类
 								Shape::setCount(Shape::getCount() + 1);//Count+1
@@ -296,11 +304,14 @@ int main(void){
 										coord[i] = atoi(tokenPtr);
 										tokenPtr = strtok(NULL, " ");
 								}
-								rectangle_[Rectangle_::getCountRectangle()] = Rectangle_ { coord };
-								sp = &rectangle_[Rectangle_::getCountRectangle()];
+								_r.setBool(0);
+								_r.setPoint(coord[0], coord[1], 0);
+								_r.setPoint(coord[2], coord[3], 1);
+								sp = &_r;
 								cleardevice();
 								Basic::reDraw(circle_, rectangle_, triangle, shape);
 								sp->draw();
+								rectangle_[Rectangle_::getCountRectangle()] = _r;
 								Rectangle_::setCountRectangle(Rectangle_::getCountRectangle() + 1);//countRectangle+1
 								shape[Shape::getCount()] = 2;//记录图形种类
 								Shape::setCount(Shape::getCount() + 1);//Count+1
@@ -318,11 +329,16 @@ int main(void){
 										coord[i] = atoi(tokenPtr);
 										tokenPtr = strtok(NULL, " ");
 								}
-								triangle[Triangle::getCountTriangle()] = Triangle { coord };
-								sp = &triangle[Triangle::getCountTriangle()];
+								_t.setBool(1);
+								_t.setPoint(coord[0], coord[1], 0);
+								_t.setPoint(coord[2], coord[3], 1);
+								_t.setPoint(coord[4], coord[5], 2);
+
+								sp = &_t;
 								cleardevice();
 								Basic::reDraw(circle_, rectangle_, triangle, shape);
 								sp->draw();
+								triangle[Triangle::getCountTriangle()] = _t;
 								Triangle::setCountTriangle(Triangle::getCountTriangle() + 1);//countTriangle+1
 								shape[Shape::getCount()] = 3;//记录图形种类
 								Shape::setCount(Shape::getCount() + 1);//Count+1
