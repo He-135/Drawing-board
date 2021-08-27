@@ -263,101 +263,128 @@ int main(void){
 				switch (choose) {
 						//圆
 						case '1':
-								//输入圆心坐标
-								inputbox_getline("请输入【圆心坐标】",
-										"（以空格分隔）",
-										points,
-										sizeof(points) / sizeof(*points));
-								tokenPtr = strtok(points, " ");
-								for (int i = 0; tokenPtr != NULL; i++) {
-										coord[i] = atoi(tokenPtr);
-										tokenPtr = strtok(NULL, " ");
+							cleardevice();
+							Basic::reDraw(circle_, rectangle_, triangle, shape);
+							Basic::font();
+							xyprintf(0, 20, "请用鼠标选取圆心和圆上任意一点");
+							for (int k = 0, i = 0; k < 2; k++) {
+								mouse_msg msg{ 0 };
+								int isdown = 0;
+								do {
+									msg = getmouse();
+									if (msg.is_down() && msg.is_left()) isdown = 1;
+								} while (isdown == 0);
+								coord[i++] = msg.x;
+								coord[i++] = msg.y;
+								if (k != 0) {
+									cleardevice();
+									Basic::reDraw(circle_, rectangle_, triangle, shape);
+									Basic::font();
+									xyprintf(0, 20, "请用鼠标选取圆心和圆上任意一点");
 								}
-								//输入圆半径
-								inputbox_getline("请输入【半径】",
-										"半径（r）：（按回车结束）",
-										cr,
-										sizeof(cr) / sizeof(*cr));
-								r = atoi(cr);
-								_c.setBool(0);
-								_c.setPoint(coord[0], coord[1]);
-								_c.setRadius(r);
-								sp = &_c;
-								cleardevice();
-								Basic::reDraw(circle_, rectangle_, triangle, shape);
-								sp->draw();
-								circle_[Circle::getCountCircle()] = _c;
-								circle_[Circle::getCountCircle()].setCountCircle(Circle::getCountCircle() + 1);//countCircle+1
-								shape[Shape::getCount()] = 1;//记录图形种类
-								Shape::setCount(Shape::getCount() + 1);//Count+1
-								break;
+								xyprintf(0, 0, "%d,%d", msg.x, msg.y);
+							}
+							_c.setBool(0);
+							_c.setPoint(coord[0], coord[1]);
+							_c.setRadius(sqrt((coord[0] - coord[2])* (coord[0] - coord[2]) + (coord[1] - coord[3]) * (coord[1] - coord[3])));
+							sp = &_c;
+							cleardevice();
+							Basic::reDraw(circle_, rectangle_, triangle, shape);
+							sp->draw();
+							circle_[Circle::getCountCircle()] = _c;
+							circle_[Circle::getCountCircle()].setCountCircle(Circle::getCountCircle() + 1);//countCircle+1
+							shape[Shape::getCount()] = 1;//记录图形种类
+							Shape::setCount(Shape::getCount() + 1);//Count+1
+							break;
 
 						//矩形
 						case '2':
-								//输入左上和右下顶点坐标
-								inputbox_getline("请输入【左上和右下顶点坐标】",
-										"（以空格分隔）",
-										points,
-										sizeof(points) / sizeof(*points));
-								tokenPtr = strtok(points, " ");
-								for (int i = 0; tokenPtr != NULL; i++) {
-										coord[i] = atoi(tokenPtr);
-										tokenPtr = strtok(NULL, " ");
+							cleardevice();
+							Basic::reDraw(circle_, rectangle_, triangle, shape);
+							Basic::font();
+							xyprintf(0, 20, "请用鼠标选取左上和右下顶点坐标");
+							for (int k = 0, i = 0; k < 2; k++) {
+								mouse_msg msg{ 0 };
+								int isdown = 0;
+								do {
+									msg = getmouse();
+									if (msg.is_down() && msg.is_left()) isdown = 1;
+								} while (isdown == 0);
+								coord[i++] = msg.x;
+								coord[i++] = msg.y;
+								if (k != 0) {
+									cleardevice();
+									Basic::reDraw(circle_, rectangle_, triangle, shape);
+									Basic::font();
+									xyprintf(0, 20, "请用鼠标选取左上和右下顶点坐标");
 								}
-								_r.setBool(0);
-								_r.setPoint(coord[0], coord[1], 0);
-								_r.setPoint(coord[2], coord[3], 1);
-								sp = &_r;
-								cleardevice();
-								Basic::reDraw(circle_, rectangle_, triangle, shape);
-								sp->draw();
-								rectangle_[Rectangle_::getCountRectangle()] = _r;
-								Rectangle_::setCountRectangle(Rectangle_::getCountRectangle() + 1);//countRectangle+1
-								shape[Shape::getCount()] = 2;//记录图形种类
-								Shape::setCount(Shape::getCount() + 1);//Count+1
-								break;
+								xyprintf(0, 0, "%d,%d", msg.x, msg.y);
+							}
+							_r.setBool(0);
+							_r.setPoint(coord[0], coord[1], 0);
+							_r.setPoint(coord[2], coord[3], 1);
+							sp = &_r;
+							cleardevice();
+							Basic::reDraw(circle_, rectangle_, triangle, shape);
+							sp->draw();
+							rectangle_[Rectangle_::getCountRectangle()] = _r;
+							Rectangle_::setCountRectangle(Rectangle_::getCountRectangle() + 1);//countRectangle+1
+							shape[Shape::getCount()] = 2;//记录图形种类
+							Shape::setCount(Shape::getCount() + 1);//Count+1
+							break;
 
 						//三角形
 						case '3':
-								//输入左上和右下顶点坐标
-								inputbox_getline("请输入【三个顶点坐标】",
-										"（以空格分隔）",
-										points,
-										sizeof(points) / sizeof(*points));
-								tokenPtr = strtok(points, " ");
-								for (int i = 0; tokenPtr != NULL; i++) {
-										coord[i] = atoi(tokenPtr);
-										tokenPtr = strtok(NULL, " ");
+							cleardevice();
+							Basic::reDraw(circle_, rectangle_, triangle, shape);
+							Basic::font();
+							xyprintf(0, 20, "请用鼠标选取三个顶点坐标");
+							for (int k = 0, i = 0; k < 3; k++) {
+								mouse_msg msg{ 0 };
+								int isdown = 0;
+								do {
+									msg = getmouse();
+									if (msg.is_down() && msg.is_left()) isdown = 1;
+								} while (isdown == 0);
+								coord[i++] = msg.x;
+								coord[i++] = msg.y;
+								if (k != 0) {
+									cleardevice();
+									Basic::reDraw(circle_, rectangle_, triangle, shape);
+									Basic::font();
+									xyprintf(0, 20, "请用鼠标选取三个顶点坐标");
 								}
-								_t.setBool(1);
-								_t.setPoint(coord[0], coord[1], 0);
-								_t.setPoint(coord[2], coord[3], 1);
-								_t.setPoint(coord[4], coord[5], 2);
+								xyprintf(0, 0, "%d,%d", msg.x, msg.y);
+							}
+							_t.setBool(1);
+							_t.setPoint(coord[0], coord[1], 0);
+							_t.setPoint(coord[2], coord[3], 1);
+							_t.setPoint(coord[4], coord[5], 2);
 
-								sp = &_t;
-								cleardevice();
-								Basic::reDraw(circle_, rectangle_, triangle, shape);
-								sp->draw();
-								triangle[Triangle::getCountTriangle()] = _t;
-								Triangle::setCountTriangle(Triangle::getCountTriangle() + 1);//countTriangle+1
-								shape[Shape::getCount()] = 3;//记录图形种类
-								Shape::setCount(Shape::getCount() + 1);//Count+1
-								break;
+							sp = &_t;
+							cleardevice();
+							Basic::reDraw(circle_, rectangle_, triangle, shape);
+							sp->draw();
+							triangle[Triangle::getCountTriangle()] = _t;
+							Triangle::setCountTriangle(Triangle::getCountTriangle() + 1);//countTriangle+1
+							shape[Shape::getCount()] = 3;//记录图形种类
+							Shape::setCount(Shape::getCount() + 1);//Count+1
+							break;
 						//清空屏幕
 						case '4':
-								cleardevice();
-								Shape::setCount(0);
-								Circle::setCountCircle(0);
-								Rectangle_::setCountRectangle(0);
-								Triangle::setCountTriangle(0);
-								for (int i = 0; i < 100; i++) { //清空数组内数据
-										shape[i] = -1;
-								}
-								break;
+							cleardevice();
+							Shape::setCount(0);
+							Circle::setCountCircle(0);
+							Rectangle_::setCountRectangle(0);
+							Triangle::setCountTriangle(0);
+							for (int i = 0; i < 100; i++) { //清空数组内数据
+									shape[i] = -1;
+							}
+							break;
 						//保存并退出程序
 						case '5':
-								goto b;
-								break;
+							goto b;
+							break;
 				}
 		}
 		b://存储数据
